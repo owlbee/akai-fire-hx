@@ -1,0 +1,9 @@
+-cp src
+-cp ../src
+-dce full
+-lib grig.midi
+
+-main FireTest
+--cpp bin/cpp/fire-test
+# --python bin/py/fire-test.py
+# --js bin/js/fire-test.js
