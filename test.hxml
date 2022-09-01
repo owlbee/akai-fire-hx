@@ -1,0 +1,6 @@
+-cp test
+-cp src
+-lib utest
+-lib grig.midi
+-main test.RunTests
+--interp
