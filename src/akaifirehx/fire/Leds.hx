@@ -1,90 +1,34 @@
 package akaifirehx.fire;
 
 class Leds {
-	var singleColorLeds:Map<SingleColorLed, Led<SingleColorState>>;
-	var yellowColorLeds:Map<YellowColorLed, Led<YellowColorState>>;
+	var singleColorLeds:Map<SingleColorLed, SingleColorState>;
+	var yellowColorLeds:Map<YellowColorLed, YellowColorState>;
 	var multiColorLeds:Map<MultiColorLed, MultiColorState>;
+	
 	public function new() {
 		singleColorLeds = [
-			BROWSER => {
-				state: OFF,
-				color: RED
-			},
-			PATUP => {
-				state: OFF,
-				color: RED
-			},
-			PATDOWN => {
-				state: OFF,
-				color: RED
-			},
-			GRIDLEFT => {
-				state: OFF,
-				color: RED
-			},
-			GRIDRIGHT => {
-				state: OFF,
-				color: RED
-			},
-			ALT => {
-				state: OFF,
-				color: YELLOW
-			},
-			STOP => {
-				state: OFF,
-				color: YELLOW
-			},
-			SOLO1 => {
-				state: OFF,
-				color: GREEN
-			},
-			SOLO2 => {
-				state: OFF,
-				color: GREEN
-			},
-			SOLO3 => {
-				state: OFF,
-				color: GREEN
-			},
-			SOLO4 => {
-				state: OFF,
-				color: GREEN
-			}
+			BROWSER => OFF,
+			PATUP => OFF,
+			PATDOWN => OFF,
+			GRIDLEFT => OFF,
+			GRIDRIGHT => OFF,
+			ALT => OFF,
+			STOP => OFF,
+			SOLO1 => OFF,
+			SOLO2 => OFF,
+			SOLO3 => OFF,
+			SOLO4 => OFF
 		];
 
 		yellowColorLeds = [
-			STEP => {
-				state: OFF,
-				color: RED
-			},
-			NOTE => {
-				state: OFF,
-				color: RED
-			},
-			DRUM => {
-				state: OFF,
-				color: RED
-			},
-			PERFORM => {
-				state: OFF,
-				color: RED
-			},
-			SHIFT => {
-				state: OFF,
-				color: RED
-			},
-			REC => {
-				state: OFF,
-				color: RED
-			},
-			PATTERN => {
-				state: OFF,
-				color: GREEN
-			},
-			PLAY => {
-				state: OFF,
-				color: GREEN
-			}
+			STEP => OFF,
+			NOTE => OFF,
+			DRUM => OFF,
+			PERFORM => OFF,
+			SHIFT => OFF,
+			REC => OFF,
+			PATTERN => OFF,
+			PLAY => OFF
 		];
 
 		multiColorLeds = [
@@ -96,24 +40,24 @@ class Leds {
 	}
 
 	public function setSingle(id:SingleColorLed, state:SingleColorState) {
-		singleColorLeds[id].state = state;
+		singleColorLeds[id] = state;
 	}
 
 	public function getSingleColorCcBytes(id:SingleColorLed):Array<Int> {
 		return [
 			id,
-			singleColorLeds[id].state
+			singleColorLeds[id]
 		];
 	}
 
 	public function setYellow(id:YellowColorLed, state:YellowColorState) {
-		yellowColorLeds[id].state = state;
+		yellowColorLeds[id] = state;
 	}
 
 	public function getYellowColorCcBytes(id:YellowColorLed):Array<Int> {
 		return [
 			id,
-			yellowColorLeds[id].state
+			yellowColorLeds[id]
 		];
 	}
 
@@ -127,12 +71,6 @@ class Leds {
 			multiColorLeds[id]
 		];
 	}
-}
-
-@:structInit
-class Led<ColorState> {
-	public var color:LedColor;
-	public var state:ColorState;
 }
 
 @:enum
@@ -174,12 +112,6 @@ abstract MultiColorLed(Int) from Int to Int {
 	var TRACK2 = 0x29; 
 	var TRACK3 = 0x2A; 
 	var TRACK4 = 0x2B; 
-}
-
-enum LedColor {
-	RED;
-	YELLOW;
-	GREEN;
 }
 
 @:enum
