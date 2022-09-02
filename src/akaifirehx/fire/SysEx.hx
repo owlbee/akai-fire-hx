@@ -2,7 +2,7 @@ package akaifirehx.fire;
 
 class PadSysExMessages {
 	static var totalPads:Int = 64;
-	static var padColorMessageLength = 4;
+	static var padColorMessageLength:Int = 4;
 	static var gridWidth:Int = 16;
 
 	static inline function clamp(num:Int, minimum:Int, maximum:Int):Int {
@@ -58,6 +58,29 @@ class PadSysExMessages {
 		for (i in 0...totalPads) {
 			appendPadColorMessage(innerBytes, i, r, g, b);
 		}
+		return innerBytes;
+	}
+}
+
+class OledSysExMessages{
+	
+	static var startBand:Int = 0;
+	static var endBand:Int = 0x7;
+	static var startColumn:Int = 0;
+	static var endColumn:Int = 0x7f;
+
+	public static function allOledPixels(pixels:Array<Int>):Array<Int>{
+		var messageLength = pixels.length + 4;
+		var innerBytes = start_message(MessageConstants.WRITE_OLED, messageLength);
+		innerBytes.push(startBand);
+		innerBytes.push(endBand);
+		innerBytes.push(startColumn);
+		innerBytes.push(endColumn);
+
+		for(p in pixels){
+			innerBytes.push(p);
+		}
+		
 		return innerBytes;
 	}
 }

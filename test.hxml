@@ -2,5 +2,6 @@
 -cp src
 -lib utest
 -lib grig.midi
+--resource resource/12x16fnt.bin@12x16fnt
 -main test.RunTests
 --interp

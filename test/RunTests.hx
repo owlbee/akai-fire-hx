@@ -9,6 +9,8 @@ class RunTests {
         var runner = new Runner();
         runner.addCase(new SysExColorTests());
         runner.addCase(new SysExSetPadStateTests());
+        runner.addCase(new SysExSetOledStateTests());
+        runner.addCase(new OledDisplayTests());
         Report.create(runner);
         runner.run();
       }
