@@ -22,7 +22,7 @@ class PadSysExMessages {
 		return Std.int(row * gridWidth + col);
 	}
 
-	public static function singlePadColor(rgb:Int, x:Int, y:Int):Dynamic {
+	public static function singleColor(rgb:Int, x:Int, y:Int):Dynamic {
 		var innerBytes = start_message(MessageConstants.WRITE_PADS, padColorMessageLength);
 		var i = calculateGridIndex(x, y);
 		var r = sysex_red(rgb);
@@ -32,7 +32,7 @@ class PadSysExMessages {
 		return innerBytes;
 	}
 
-	public static function regionPadColor(rgb:Int, x:Int, y:Int, width:Int, height:Int):Dynamic {
+	public static function regionColor(rgb:Int, x:Int, y:Int, width:Int, height:Int):Dynamic {
 		var edge_right = clamp(x + width, 0, 16);
 		var edge_bottom = clamp(y + height, 0, 4);
 		var padCount = (edge_right - x) * (edge_bottom - y);
@@ -49,7 +49,7 @@ class PadSysExMessages {
 		return innerBytes;
 	}
 
-	public static function allPadColor(rgb:Int):Array<Int> {
+	public static function allColor(rgb:Int):Array<Int> {
 		final payloadLength:Int = Std.int(totalPads * padColorMessageLength);
 		var innerBytes = start_message(MessageConstants.WRITE_PADS, payloadLength);
 		var r = sysex_red(rgb);
@@ -71,7 +71,7 @@ class OledSysExMessages{
 
 	public static function allOledPixels(pixels:Array<Int>):Array<Int>{
 		var messageLength = pixels.length + 4;
-		var innerBytes = start_message(MessageConstants.WRITE_OLED, messageLength);
+		var innerBytes = start_message(MessageConstants.WRITE_OLed, messageLength);
 		innerBytes.push(startBand);
 		innerBytes.push(endBand);
 		innerBytes.push(startColumn);
@@ -89,7 +89,7 @@ class MessageConstants {
 	public static var VENDOR = 0x47; // akai
 	public static var DEVICE = 0x43; // fire
 	public static var WRITE_PADS = 0x65;
-	public static var WRITE_OLED = 0x0e;
+	public static var WRITE_OLed = 0x0e;
 }
 
 inline function sysex_red(rgb:Int):Int {

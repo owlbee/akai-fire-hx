@@ -1,3 +1,5 @@
+package test;
+
 import akaifirehx.fire.SysEx;
 import utest.Assert;
 import utest.Test;
@@ -20,7 +22,7 @@ class SysExColorTests extends Test {
 }
 
 class SysExSetPadStateTests extends Test {
-    function test_innerBytes_SinglePadColor(){
+    function test_innerBytes_PadSingleColor(){
         var expected =  [71, 127, 67, 101, 0, 4, 
             34, 0, 0, 127
         ];
@@ -29,10 +31,10 @@ class SysExSetPadStateTests extends Test {
         var x = 2;
         var y = 2;
         
-        Assert.same(expected, PadSysExMessages.singlePadColor(rgb, x, y));
+        Assert.same(expected, PadSysExMessages.singleColor(rgb, x, y));
     }
 
-    function test_innerBytes_RegionPadColor(){
+    function test_innerBytes_PadRegionColor(){
         // testing for 8 x 8 region of pads from 10th column, 2nd row to 0x22ff99
         // note that from this position the region can actually only be 7 x 3 in size, the expected message bytes reflect that
         
@@ -66,10 +68,10 @@ class SysExSetPadStateTests extends Test {
         var width = 8;
         var height = 8;
         
-        Assert.same(expected, PadSysExMessages.regionPadColor(rgb, x, y, width, height));
+        Assert.same(expected, PadSysExMessages.regionColor(rgb, x, y, width, height));
     }
 
-    function test_innerBytes_AllPadColor(){
+    function test_innerBytes_PadAllColor(){
         var expected = [71, 127, 67, 101, 2, 0, 
             0, 118, 34, 119, 
             1, 118, 34, 119, 
@@ -139,7 +141,7 @@ class SysExSetPadStateTests extends Test {
 
         var rgb = 0xec45ee;
 
-        Assert.same(expected, PadSysExMessages.allPadColor(rgb));
+        Assert.same(expected, PadSysExMessages.allColor(rgb));
     }
 }
 

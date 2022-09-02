@@ -1,6 +1,6 @@
 package akaifirehx.fire;
 
-class OledDisplay {
+class Display {
 	public var pixels(default, null):Array<Int>;
 
 	var font:BitmapFont;
