@@ -7,6 +7,12 @@ End goal is to enable easy construction of custom MIDI interfaces, with the soft
 
 Currently in prototype stage.
 
+## Thanks
+
+Many thanks go to Paul Curtis for sharing their reverse engineered SysEx messages - https://blog.segger.com/decoding-the-akai-fire-part-1/
+
+Also to Jürgen Schwietering for the font rendering routines - https://github.com/scjurgen/AkaiFireMapper
+
 # Set Up
 
 Fundamentally you need haxe installed and set up, available here - https://haxe.org/download/
