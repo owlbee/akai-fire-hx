@@ -4,7 +4,8 @@ class Leds {
 	var singleColorLeds:Map<SingleColorLed, SingleColorState>;
 	var yellowColorLeds:Map<YellowColorLed, YellowColorState>;
 	var multiColorLeds:Map<MultiColorLed, MultiColorState>;
-	
+	var encodeModeLed:EncoderModeState;
+
 	public function new() {
 		singleColorLeds = [
 			BROWSER => OFF,
@@ -37,6 +38,8 @@ class Leds {
 			TRACK3 => OFF,
 			TRACK4 => OFF,
 		];
+
+		encodeModeLed = ALL_OFF;
 	}
 
 	public function setSingle(id:SingleColorLed, state:SingleColorState) {
@@ -69,6 +72,17 @@ class Leds {
 		return [
 			id,
 			multiColorLeds[id]
+		];
+	}
+
+	public function setEncoderMode(state:EncoderModeState) {
+		encodeModeLed = state;
+	}
+
+	public function getEncodeModeCcBytes():Array<Int> {
+		return [
+			0x1b,
+			encodeModeLed
 		];
 	}
 }
@@ -137,4 +151,15 @@ abstract MultiColorState(Int) from Int to Int{
 	var GREEN_LOW = 2;
 	var RED_HIGH = 3;
 	var GREEN_HIGH = 4;
+}
+
+@:enum
+abstract EncoderModeState(Int) from Int to Int{
+	var ALL_OFF = 0x10;
+	var ALL_ON = 0x1F;
+	var CHANNEL_ONLY = 0x11;
+	var MIXER_ONLY = 0x12;
+	var CHANNEL_AND_MIXER = 0x13;
+	var USER_1_ONLY = 0x03;
+	var USER_2_ONLY = 0x04;
 }

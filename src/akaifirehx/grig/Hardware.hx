@@ -10,7 +10,7 @@ import grig.midi.MidiOut;
 class Hardware {
 	var midiOut:MidiOut;
 	var oled:Display;
-	var buttons:Leds;
+	var leds:Leds;
 	var isReady:Bool;
 
 	public function new(portName:String, portNumber:Int) {
@@ -23,7 +23,7 @@ class Hardware {
 							case Success(_):
 								trace('Akai Fire Connected to $portNumber - $portName');
 								oled = new Display();
-								buttons = new Leds();
+								leds = new Leds();
 								isReady = true;
 								initLeds();
 								initPads();
@@ -51,14 +51,17 @@ class Hardware {
 					oled.plotText(text, x, y);
 					midiOut.sendMessage(MidiMessage.ofMessageType(SysEx, OledSysExMessages.allOledPixels(oled.pixels)));
 				case LedSingleColor(id, state):
-					buttons.setSingle(id, state);
-					midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, buttons.getSingleColorCcBytes(id)));
+					leds.setSingle(id, state);
+					midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getSingleColorCcBytes(id)));
 				case LedYellowColor(id, state):
-					buttons.setYellow(id, state);
-					midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, buttons.getYellowColorCcBytes(id)));
+					leds.setYellow(id, state);
+					midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getYellowColorCcBytes(id)));
 				case LedMultiColor(id, state):
-					buttons.setMulti(id, state);
-					midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, buttons.getMultiColorCcBytes(id)));
+					leds.setMulti(id, state);
+					midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getMultiColorCcBytes(id)));
+				case LedEncoderMode(state):
+					leds.setEncoderMode(state);
+					midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getEncodeModeCcBytes()));
 			}
 		} else {
 			trace('Device is not ready');
@@ -67,14 +70,16 @@ class Hardware {
 
 	function initLeds() {
 		@:privateAccess
-		for (id in buttons.singleColorLeds.keys()) {
-			midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, buttons.getSingleColorCcBytes(id)));
+		for (id in leds.singleColorLeds.keys()) {
+			midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getSingleColorCcBytes(id)));
 		}
 
 		@:privateAccess
-		for (id in buttons.yellowColorLeds.keys()) {
-			midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, buttons.getYellowColorCcBytes(id)));
+		for (id in leds.yellowColorLeds.keys()) {
+			midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getYellowColorCcBytes(id)));
 		}
+		
+		midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getEncodeModeCcBytes()));
 	}
 
 	function initPads() {
