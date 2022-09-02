@@ -46,5 +46,7 @@ class FireTest {
 		fire.sendMessage(LedMultiColor(TRACK4, GREEN_HIGH));
 
 		fire.sendMessage(LedEncoderMode(ALL_ON));
+
+		// fire.sendMessage(LedGlobalIllumination(true));
 	}
 }

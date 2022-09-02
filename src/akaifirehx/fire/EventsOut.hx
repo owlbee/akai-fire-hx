@@ -11,4 +11,5 @@ enum AkaiFireEventOut {
 	LedYellowColor(id:YellowColorLed, state:YellowColorState);
 	LedMultiColor(id:MultiColorLed, state:MultiColorState);
 	LedEncoderMode(state:EncoderModeState);
+	LedGlobalIllumination(isOn:Bool);
 }

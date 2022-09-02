@@ -85,6 +85,13 @@ class Leds {
 			encodeModeLed
 		];
 	}
+
+	public function getGlobalIllumuniationCcBytes(isOn:Bool){
+		return [
+			127,
+			isOn ? 1 : 0
+		];
+	}
 }
 
 @:enum

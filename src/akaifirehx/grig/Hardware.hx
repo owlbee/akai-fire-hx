@@ -25,8 +25,7 @@ class Hardware {
 								oled = new Display();
 								leds = new Leds();
 								isReady = true;
-								initLeds();
-								initPads();
+								initIllumination();
 								initDisplay();
 							case Failure(error):
 								trace('error $error');
@@ -48,6 +47,7 @@ class Hardware {
 				case PadAllColor(rgb):
 					midiOut.sendMessage(MidiMessage.ofMessageType(SysEx, PadSysExMessages.allColor(rgb)));
 				case DisplayWriteText(text, x, y):
+					oled.clear();
 					oled.plotText(text, x, y);
 					midiOut.sendMessage(MidiMessage.ofMessageType(SysEx, OledSysExMessages.allOledPixels(oled.pixels)));
 				case LedSingleColor(id, state):
@@ -62,31 +62,20 @@ class Hardware {
 				case LedEncoderMode(state):
 					leds.setEncoderMode(state);
 					midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getEncodeModeCcBytes()));
+				case LedGlobalIllumination(isOn):
+					midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getGlobalIllumuniationCcBytes(isOn)));
 			}
 		} else {
 			trace('Device is not ready');
 		}
 	}
 
-	function initLeds() {
-		@:privateAccess
-		for (id in leds.singleColorLeds.keys()) {
-			midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getSingleColorCcBytes(id)));
-		}
-
-		@:privateAccess
-		for (id in leds.yellowColorLeds.keys()) {
-			midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getYellowColorCcBytes(id)));
-		}
-		
-		midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getEncodeModeCcBytes()));
-	}
-
-	function initPads() {
-		sendMessage(PadAllColor(0x000000));
+	function initIllumination() {
+		// set all leds off (including pads)
+		midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getGlobalIllumuniationCcBytes(false)));
 	}
 
 	function initDisplay() {
-		sendMessage(DisplayWriteText("hello", 0, 0));
+		sendMessage(DisplayWriteText("ready!", 0, 0));
 	}
 }
