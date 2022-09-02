@@ -3,7 +3,9 @@
 -dce full
 -lib grig.midi
 
+--resource ../resource/12x16fnt.bin@12x16fnt
 -main FireTest
 --cpp bin/cpp/fire-test
+
 # --python bin/py/fire-test.py
 # --js bin/js/fire-test.js

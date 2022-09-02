@@ -12,5 +12,6 @@ class FireTest {
 		fire.sendMessage(RegionPadColor(0x22ff99, 9, 1, 8, 8));
 		fire.sendMessage(RegionPadColor(0x2040ff, 4, 1, 3, 2));
 		fire.sendMessage(SinglePadColor(0x934692, 15, 3));
+		fire.sendMessage(OledWriteText("hello ^_^", 0, 0));
 	}
 }
