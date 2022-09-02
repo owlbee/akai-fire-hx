@@ -1,9 +1,10 @@
 -cp src
 -cp ../src
--dce full
+# -dce full
 -lib grig.midi
+-dce no
 
--main TraceMidiOut
---cpp bin/cpp/trace-midi-out
+-main TraceMidi
+--cpp bin/cpp/trace-midi
 # --python bin/py/trace-midi.py
 # --js bin/js/trace-midi.js
