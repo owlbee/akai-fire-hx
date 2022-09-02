@@ -2,8 +2,8 @@ package akaifirehx.fire;
 
 class Leds {
 	var singleColorLeds:Map<SingleColorLed, Led<SingleColorState>>;
-	var multiColorLeds:Map<MultiColorLed, Led<MultiColorState>>;
-
+	var yellowColorLeds:Map<YellowColorLed, Led<YellowColorState>>;
+	var multiColorLeds:Map<MultiColorLed, MultiColorState>;
 	public function new() {
 		singleColorLeds = [
 			BROWSER => {
@@ -52,7 +52,7 @@ class Leds {
 			}
 		];
 
-		multiColorLeds = [
+		yellowColorLeds = [
 			STEP => {
 				state: OFF,
 				color: RED
@@ -86,6 +86,13 @@ class Leds {
 				color: GREEN
 			}
 		];
+
+		multiColorLeds = [
+			TRACK1 => OFF,
+			TRACK2 => OFF,
+			TRACK3 => OFF,
+			TRACK4 => OFF,
+		];
 	}
 
 	public function setSingle(id:SingleColorLed, state:SingleColorState) {
@@ -99,14 +106,25 @@ class Leds {
 		];
 	}
 
+	public function setYellow(id:YellowColorLed, state:YellowColorState) {
+		yellowColorLeds[id].state = state;
+	}
+
+	public function getYellowColorCcBytes(id:YellowColorLed):Array<Int> {
+		return [
+			id,
+			yellowColorLeds[id].state
+		];
+	}
+
 	public function setMulti(id:MultiColorLed, state:MultiColorState) {
-		multiColorLeds[id].state = state;
+		multiColorLeds[id] = state;
 	}
 
 	public function getMultiColorCcBytes(id:MultiColorLed):Array<Int> {
 		return [
 			id,
-			multiColorLeds[id].state
+			multiColorLeds[id]
 		];
 	}
 }
@@ -136,7 +154,7 @@ abstract SingleColorLed(Int) from Int to Int {
 }
 
 @:enum
-abstract MultiColorLed(Int) from Int to Int {
+abstract YellowColorLed(Int) from Int to Int {
 	// red
 	var STEP = 0x2c;
 	var NOTE = 0x2d;
@@ -147,6 +165,15 @@ abstract MultiColorLed(Int) from Int to Int {
 	// green
 	var PATTERN = 0x32;
 	var PLAY = 0x33;
+}
+
+
+@:enum
+abstract MultiColorLed(Int) from Int to Int {
+	var TRACK1 = 0x28; 
+	var TRACK2 = 0x29; 
+	var TRACK3 = 0x2A; 
+	var TRACK4 = 0x2B; 
 }
 
 enum LedColor {
@@ -163,10 +190,19 @@ abstract SingleColorState(Int) from Int to Int{
 }
 
 @:enum
-abstract MultiColorState(Int) from Int to Int{
+abstract YellowColorState(Int) from Int to Int{
 	var OFF = 0;
 	var COLOR_LOW = 1;
 	var YELLOW_LOW = 2;
 	var COLOR_HIGH = 3;
 	var YELLOW_HIGH = 4;
+}
+
+@:enum
+abstract MultiColorState(Int) from Int to Int{
+	var OFF = 0;
+	var RED_LOW = 1;
+	var GREEN_LOW = 2;
+	var RED_HIGH = 3;
+	var GREEN_HIGH = 4;
 }

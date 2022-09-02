@@ -28,13 +28,21 @@ class FireTest {
 		fire.sendMessage(LedSingleColor(SOLO2, HIGH));
 
 		// red / yellow
-		fire.sendMessage(LedMultiColor(STEP, COLOR_LOW));
-		fire.sendMessage(LedMultiColor(NOTE, COLOR_HIGH));
-		fire.sendMessage(LedMultiColor(DRUM, YELLOW_LOW));
-		fire.sendMessage(LedMultiColor(PERFORM, YELLOW_HIGH));
+		fire.sendMessage(LedYellowColor(STEP, COLOR_LOW));
+		fire.sendMessage(LedYellowColor(NOTE, COLOR_HIGH));
+		fire.sendMessage(LedYellowColor(DRUM, YELLOW_LOW));
+		fire.sendMessage(LedYellowColor(PERFORM, YELLOW_HIGH));
 
 		// green / yellow
-		fire.sendMessage(LedMultiColor(PATTERN, COLOR_LOW));
-		fire.sendMessage(LedMultiColor(PLAY, COLOR_HIGH));
+		fire.sendMessage(LedYellowColor(PATTERN, COLOR_LOW));
+		fire.sendMessage(LedYellowColor(PLAY, COLOR_HIGH));
+
+		// rectangle red
+		fire.sendMessage(LedMultiColor(TRACK1, RED_LOW));
+		fire.sendMessage(LedMultiColor(TRACK2, RED_HIGH));
+
+		// rectangle green
+		fire.sendMessage(LedMultiColor(TRACK3, GREEN_LOW));
+		fire.sendMessage(LedMultiColor(TRACK4, GREEN_HIGH));
 	}
 }

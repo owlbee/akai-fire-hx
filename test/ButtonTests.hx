@@ -18,12 +18,12 @@ class LedTests extends Test {
 		Assert.same(expected, totalDefined);
 	}
 
-	function test_countDefined_MultiColorLeds() {
+	function test_countDefined_YellowColorLeds() {
 		var buttons = new Leds();
 		var totalDefined = 0;
 		
 		@:privateAccess
-		for(k in buttons.multiColorLeds.keys()){
+		for(k in buttons.yellowColorLeds.keys()){
 			totalDefined++;
 		}
 		

@@ -53,6 +53,9 @@ class Hardware {
 				case LedSingleColor(id, state):
 					buttons.setSingle(id, state);
 					midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, buttons.getSingleColorCcBytes(id)));
+				case LedYellowColor(id, state):
+					buttons.setYellow(id, state);
+					midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, buttons.getYellowColorCcBytes(id)));
 				case LedMultiColor(id, state):
 					buttons.setMulti(id, state);
 					midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, buttons.getMultiColorCcBytes(id)));
@@ -64,13 +67,13 @@ class Hardware {
 
 	function initLeds() {
 		@:privateAccess
-		for(id in buttons.singleColorLeds.keys()){
+		for (id in buttons.singleColorLeds.keys()) {
 			midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, buttons.getSingleColorCcBytes(id)));
 		}
 
 		@:privateAccess
-		for(id in buttons.multiColorLeds.keys()){
-			midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, buttons.getMultiColorCcBytes(id)));
+		for (id in buttons.yellowColorLeds.keys()) {
+			midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, buttons.getYellowColorCcBytes(id)));
 		}
 	}
 
