@@ -1,6 +1,7 @@
 -cp src
 -cp ../src
--dce full
+# dec no needed for midiIn->midiCallback
+-dce no
 -lib grig.midi
 
 --resource ../resource/12x16fnt.bin@12x16fnt

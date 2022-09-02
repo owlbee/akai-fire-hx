@@ -1,5 +1,5 @@
 import akaifirehx.fire.EventsOut;
-import akaifirehx.grig.Hardware;
+import akaifirehx.grig.MidiDevice;
 
 /**
 	test akai fire abstraction
@@ -8,7 +8,18 @@ class FireTest {
 	static function main() {
 		var portName = 'FL STUDIO FIRE Jack 1';
 		var portNumber = 1;
-		var fire = new Hardware(portName, portNumber);
+		var outPort:PortConfig = {
+			portNumber: portNumber,
+			portName: portName
+		}
+
+		var inPort:PortConfig = {
+			portNumber: portNumber,
+			portName: portName
+		}
+
+		var fire = new MidiDevice(inPort, outPort);
+		
 		fire.sendMessage(PadRegionColor(0x22ff99, 9, 1, 8, 8));
 		fire.sendMessage(PadRegionColor(0x2040ff, 4, 1, 3, 2));
 		fire.sendMessage(PadSingleColor(0x934692, 15, 3));

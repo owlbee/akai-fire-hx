@@ -7,7 +7,7 @@ import grig.midi.MidiMessage;
 import akaifirehx.fire.EventsOut;
 import grig.midi.MidiOut;
 
-class Hardware {
+class Output {
 	var midiOut:MidiOut;
 	var oled:Display;
 	var leds:Leds;
@@ -21,7 +21,7 @@ class Hardware {
 					midiOut.openPort(portNumber, portName).handle(function(midiOutcome) {
 						switch midiOutcome {
 							case Success(_):
-								trace('Akai Fire Connected to $portNumber - $portName');
+								trace('OUT -> Akai Fire Connected to $portNumber - $portName');
 								oled = new Display();
 								leds = new Leds();
 								isReady = true;
