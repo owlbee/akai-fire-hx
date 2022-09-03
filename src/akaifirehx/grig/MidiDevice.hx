@@ -1,23 +1,34 @@
 package akaifirehx.grig;
 
-import akaifirehx.fire.EventsOut;
+import akaifirehx.fire.Events;
 
 @:structInit
-class PortConfig{
+class PortConfig {
 	public var portName:String;
 	public var portNumber:Int;
 }
 
 class MidiDevice {
-	var input:Input;
-	var output:Output;
-
+	public var input(default, null):Input;
+	public var output(default, null):Output;
+	public var events(default, null):InputEvents;
+	
 	public function new(inPort:PortConfig, outPort:PortConfig) {
-		input = new Input(inPort.portName, inPort.portNumber);
+		events = new InputEvents();
+		input = new Input(inPort.portName, inPort.portNumber, events);
 		output = new Output(outPort.portName, outPort.portNumber);
 	}
 
 	public function sendMessage(event:AkaiFireEventOut) {
 		output.sendMessage(event);
+	}
+
+	public function isReady():Bool {
+		return input.isReady && output.isReady;
+	}
+
+	public function closePorts() {
+		input.closePort();
+		output.closePort();
 	}
 }

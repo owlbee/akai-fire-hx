@@ -1,6 +1,7 @@
 package akaifirehx.grig;
 
-import akaifirehx.fire.Input;
+import akaifirehx.fire.Events;
+import akaifirehx.fire.Control;
 import akaifirehx.fire.Leds;
 import akaifirehx.fire.Display;
 import grig.midi.MidiMessage;
@@ -10,22 +11,39 @@ class Input {
 	var midiIn:MidiIn;
 	var oled:Display;
 	var leds:Leds;
-	var isReady:Bool;
+	var events:InputEvents;
 
-	public function new(portName:String, portNumber:Int) {
+	public var isReady(default, null):Bool;
+
+	public function new(portName:String, portNumber:Int, events:InputEvents) {
+		this.events = events;
 		midiIn = new MidiIn(grig.midi.Api.Unspecified);
 		midiIn.setCallback(function(midiMessage:MidiMessage, delta:Float) {
-			// trace('midiMessage.byte1 ${midiMessage.byte1}');
-			// trace('midiMessage.byte2 ${midiMessage.byte2}');
-			// trace('midiMessage.byte3 ${midiMessage.byte3}');
+			// trace(midiMessage.toString());
 			var action:Action = midiMessage.byte1;
-			switch action{
+			switch action {
 				case MOVE:
-					handleEncoder(midiMessage.byte2, midiMessage.byte3);
+					handleEncoderMove(midiMessage.byte2, midiMessage.byte3);
 				case PRESS:
-					handleButtonPress(midiMessage.byte2, midiMessage.byte3);
+					if (midiMessage.byte2 < 0x19) {
+						handleEncoderPress(midiMessage.byte2);
+					} else {
+						if (midiMessage.byte2 < 0x36) {
+							handleButtonPress(midiMessage.byte2);
+						} else {
+							handlePadPress(midiMessage.byte2);
+						}
+					}
 				case RELEASE:
-					handleButtonRelease(midiMessage.byte2, midiMessage.byte3);
+					if (midiMessage.byte2 < 0x19) {
+						handleEncoderRelease(midiMessage.byte2);
+					} else {
+						if (midiMessage.byte2 < 0x36) {
+							handleButtonRelease(midiMessage.byte2);
+						} else {
+							handlePadRelease(midiMessage.byte2);
+						}
+					}
 			}
 		});
 		midiIn.getPorts().handle(function(outcome) {
@@ -36,7 +54,6 @@ class Input {
 							case Success(_):
 								isReady = true;
 								trace('IN -> Akai Fire Connected to $portNumber - $portName');
-								mainLoop(midiIn);
 							case Failure(error):
 								trace(error);
 						}
@@ -47,32 +64,39 @@ class Input {
 		});
 	}
 
-	function handleEncoder(encoder:Encoder, value:Int) {
-		var direction = value >= 64 ? "inc" : "dec";
-		trace('encoder $encoder $direction');
+	public function closePort() {
+		midiIn.closePort();
 	}
 
-	function handleButtonPress(button:Button, value:Int) {
-		trace('press $button');
+	inline function handleEncoderMove(encoder:EncoderMove, value:Int) {
+		if (value >= 64) {
+			events.onEncoderDecrement.dispatch(encoder);
+		} else {
+			events.onEncoderIncrement.dispatch(encoder);
+		}
 	}
 
-	function handleButtonRelease(button:Button, value:Int) {
-		trace('release $button');
+	inline function handlePadPress(byte2:Int) {
+		events.onPadPress.dispatch(byte2 - 0x36);
 	}
 
-	function mainLoop(midiIn:MidiIn) {
-		#if (sys && !nodejs)
-        var stdout = Sys.stdout();
-        var stdin = Sys.stdin();
-        // Using Sys.getChar() unfortunately fucks up the output
-        stdout.writeString('quit[enter] to quit\n');
-        while (true) {
-            var command = stdin.readLine();
-            if (command.toLowerCase() == 'quit') {
-                midiIn.closePort();
-                return;
-            }
-        }
-        #end
+	inline function handlePadRelease(byte2:Int) {
+		events.onPadRelease.dispatch(byte2 - 0x36);
+	}
+
+	inline function handleEncoderPress(id:EncoderTouch) {
+		events.onEncoderPress.dispatch(id);
+	}
+
+	inline function handleEncoderRelease(id:EncoderTouch) {
+		events.onEncoderRelease.dispatch(id);
+	}
+
+	inline function handleButtonPress(id:Button) {
+		events.onButtonPress.dispatch(id);
+	}
+
+	inline function handleButtonRelease(id:Button) {
+		events.onButtonRelease.dispatch(id);
 	}
 }

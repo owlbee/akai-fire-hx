@@ -15,10 +15,10 @@ class Leds {
 			GRIDRIGHT => OFF,
 			ALT => OFF,
 			STOP => OFF,
-			SOLO1 => OFF,
-			SOLO2 => OFF,
-			SOLO3 => OFF,
-			SOLO4 => OFF
+			TRACK1 => OFF,
+			TRACK2 => OFF,
+			TRACK3 => OFF,
+			TRACK4 => OFF
 		];
 
 		yellowColorLeds = [
@@ -106,10 +106,10 @@ abstract SingleColorLed(Int) from Int to Int {
 	var ALT = 0x31;
 	var STOP = 0x34;
 	// green
-	var SOLO1 = 0x24;
-	var SOLO2 = 0x25;
-	var SOLO3 = 0x26;
-	var SOLO4 = 0x27;
+	var TRACK1 = 0x24;
+	var TRACK2 = 0x25;
+	var TRACK3 = 0x26;
+	var TRACK4 = 0x27;
 }
 
 @:enum

@@ -8,22 +8,25 @@ abstract Action(Int) from Int to Int {
 }
 
 @:enum
-abstract Encoder(Int) from Int to Int {
-	var VOLUME = 16;
-	var PAN = 17;
-	var FILTER = 18;
-	var RESONANCE = 19;
-	var SELECT = 118;
+abstract EncoderMove(Int) from Int to Int {
+	var VOLUME = 0x10;
+	var PAN = 0x11;
+	var FILTER = 0x11;
+	var RESONANCE = 0x12;
+	var SELECT = 0x76;
+}
+
+@:enum
+abstract EncoderTouch(Int) from Int to Int {
+	var VOLUME = 0x10;
+	var PAN = 0x11;
+	var FILTER = 0x11;
+	var RESONANCE = 0x12;
+	var SELECT = 0x19;
 }
 
 @:enum
 abstract Button(Int) from Int to Int {
-	var VOLUME = 16;
-	var PAN = 17;
-	var FILTER = 18;
-	var RESONANCE = 19;
-	var SELECT = 25;
-
     var BROWSER = 0x21;
 	var PATUP = 0x1f;
 	var PATDOWN = 0x20;
@@ -31,10 +34,10 @@ abstract Button(Int) from Int to Int {
 	var GRIDRIGHT = 0x23;
 	var ALT = 0x31;
 	var STOP = 0x34;
-	var SOLO1 = 0x24;
-	var SOLO2 = 0x25;
-	var SOLO3 = 0x26;
-	var SOLO4 = 0x27;
+	var TRACK1 = 0x24;
+	var TRACK2 = 0x25;
+	var TRACK3 = 0x26;
+	var TRACK4 = 0x27;
 
     var STEP = 0x2c;
 	var NOTE = 0x2d;

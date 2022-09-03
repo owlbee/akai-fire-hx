@@ -14,7 +14,6 @@ class TraceMidi {
         #if (sys && !nodejs)
         var stdout = Sys.stdout();
         var stdin = Sys.stdin();
-        // Using Sys.getChar() unfortunately fucks up the output
         stdout.writeString('quit[enter] to quit\n');
         while (true) {
             var command = stdin.readLine();

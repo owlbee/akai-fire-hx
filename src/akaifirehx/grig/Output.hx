@@ -3,15 +3,15 @@ package akaifirehx.grig;
 import akaifirehx.fire.Leds;
 import akaifirehx.fire.Display;
 import akaifirehx.fire.SysEx;
+import akaifirehx.fire.Events;
 import grig.midi.MidiMessage;
-import akaifirehx.fire.EventsOut;
 import grig.midi.MidiOut;
 
 class Output {
 	var midiOut:MidiOut;
 	var oled:Display;
 	var leds:Leds;
-	var isReady:Bool;
+	public var isReady(default, null):Bool;
 
 	public function new(portName:String, portNumber:Int) {
 		midiOut = new MidiOut(grig.midi.Api.Unspecified);
@@ -35,6 +35,10 @@ class Output {
 					trace(error);
 			}
 		});
+	}
+
+	public function closePort(){
+		midiOut.closePort();
 	}
 
 	public function sendMessage(event:AkaiFireEventOut) {
