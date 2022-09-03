@@ -57,4 +57,8 @@ class Display {
 	public function plotText(text:String, x:Int, y:Int) {
 		font.plotText(text, x, y, setPixel);
 	}
+
+	public function plotPixel(isLit:Bool, x:Int, y:Int){
+		setPixel(x, y, isLit);
+	}
 }

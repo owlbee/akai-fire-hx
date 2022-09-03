@@ -56,6 +56,24 @@ haxe build-fire-test.hxml
 ./bin/cpp/fire-test/FireTest
 ```
 
+## Etch A Sketch
+
+Plot 2D lines on the OLED display using encoders.
+
+VOLUME is X axis
+PAN is Y axis
+BROWSER button clears the display
+
+```shell
+# build the code
+cd example
+haxe build-etcha.hxml
+
+# run the binary
+./bin/cpp/fire-test/Etcha
+```
+
+
 ## Troubleshooting MIDI ports
 
 If nothing happens you might need to change the port name or number in `example/src/FireTest.hx`

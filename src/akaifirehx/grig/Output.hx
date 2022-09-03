@@ -11,6 +11,7 @@ class Output {
 	var midiOut:MidiOut;
 	var oled:Display;
 	var leds:Leds;
+
 	public var isReady(default, null):Bool;
 
 	public function new(portName:String, portNumber:Int) {
@@ -37,7 +38,7 @@ class Output {
 		});
 	}
 
-	public function closePort(){
+	public function closePort() {
 		midiOut.closePort();
 	}
 
@@ -54,6 +55,14 @@ class Output {
 					oled.clear();
 					oled.plotText(text, x, y);
 					midiOut.sendMessage(MidiMessage.ofMessageType(SysEx, OledSysExMessages.allOledPixels(oled.pixels)));
+				case DisplaySetPixel(isLit, x, y):
+					oled.plotPixel(isLit, x, y);
+					midiOut.sendMessage(MidiMessage.ofMessageType(SysEx, OledSysExMessages.allOledPixels(oled.pixels)));
+				case DisplayClear(sendToDevice):
+					oled.clear();
+					if (sendToDevice) {
+						midiOut.sendMessage(MidiMessage.ofMessageType(SysEx, OledSysExMessages.allOledPixels(oled.pixels)));
+					}
 				case LedSingleColor(id, state):
 					leds.setSingle(id, state);
 					midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, leds.getSingleColorCcBytes(id)));
