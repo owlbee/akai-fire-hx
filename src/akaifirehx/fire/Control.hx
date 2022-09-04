@@ -11,8 +11,8 @@ abstract Action(Int) from Int to Int {
 abstract EncoderMove(Int) from Int to Int {
 	var VOLUME = 0x10;
 	var PAN = 0x11;
-	var FILTER = 0x11;
-	var RESONANCE = 0x12;
+	var FILTER = 0x12;
+	var RESONANCE = 0x13;
 	var SELECT = 0x76;
 }
 
@@ -20,8 +20,8 @@ abstract EncoderMove(Int) from Int to Int {
 abstract EncoderTouch(Int) from Int to Int {
 	var VOLUME = 0x10;
 	var PAN = 0x11;
-	var FILTER = 0x11;
-	var RESONANCE = 0x12;
+	var FILTER = 0x12;
+	var RESONANCE = 0x13;
 	var SELECT = 0x19;
 }
 
