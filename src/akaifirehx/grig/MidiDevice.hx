@@ -12,7 +12,7 @@ class MidiDevice {
 	public var input(default, null):Input;
 	public var output(default, null):Output;
 	public var events(default, null):InputEvents;
-	
+
 	public function new(inPort:PortConfig, outPort:PortConfig) {
 		events = new InputEvents();
 		input = new Input(inPort.portName, inPort.portNumber, events);

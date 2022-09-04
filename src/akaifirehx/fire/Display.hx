@@ -5,6 +5,7 @@ class Display {
 
 	var font:BitmapFont;
 	var bitMutate:Array<Array<Int>>;
+
 	static var totalPixels:Int = 1171;
 
 	public function new() {
@@ -28,7 +29,7 @@ class Display {
 	}
 
 	function setPixel(x:Int, y:Int, isPixelLit:Bool) {
-		if (isOutOfBounds(x, y)){
+		if (isOutOfBounds(x, y)) {
 			trace('warning ! position out of display bounds');
 			return;
 		}
@@ -37,7 +38,7 @@ class Display {
 		var bitMutateCol = Std.int(x % 7);
 		var mutatedBit = bitMutate[bitMutateCol][y];
 		var pixelIndex = Std.int(Std.int(x / 7) * 8 + Std.int(mutatedBit / 7));
-		if(pixelIndex > pixels.length){
+		if (pixelIndex > pixels.length) {
 			trace('warning ! pixel array index out of bounds');
 			return;
 		}
@@ -58,7 +59,7 @@ class Display {
 		font.plotText(text, x, y, setPixel);
 	}
 
-	public function plotPixel(isLit:Bool, x:Int, y:Int){
+	public function plotPixel(isLit:Bool, x:Int, y:Int) {
 		setPixel(x, y, isLit);
 	}
 }
