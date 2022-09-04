@@ -25,7 +25,7 @@ class Input {
 				case MOVE:
 					handleEncoderMove(midiMessage.byte2, midiMessage.byte3);
 				case PRESS:
-					if (midiMessage.byte2 < 0x19) {
+					if (midiMessage.byte2 <= 0x19) {
 						handleEncoderPress(midiMessage.byte2);
 					} else {
 						if (midiMessage.byte2 < 0x36) {
@@ -35,7 +35,7 @@ class Input {
 						}
 					}
 				case RELEASE:
-					if (midiMessage.byte2 < 0x19) {
+					if (midiMessage.byte2 <= 0x19) {
 						handleEncoderRelease(midiMessage.byte2);
 					} else {
 						if (midiMessage.byte2 < 0x36) {
