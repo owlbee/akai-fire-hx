@@ -1,6 +1,8 @@
-import haxe.EnumTools;
+import akaifirehx.fire.Control.Button;
 import akaifirehx.fire.Events;
 import akaifirehx.grig.MidiDevice;
+
+using akaifirehx.util.AbstractEnumNames;
 
 /**
 	test akai fire abstraction
@@ -61,14 +63,14 @@ class FireTest {
 
 		// fire.sendMessage(LedGlobalIllumination(true));
 
-		fire.events.onButtonPress.add(button -> trace('button press $button'));
-		fire.events.onButtonRelease.add(button -> trace('button release $button'));
+		fire.events.onButtonPress.add(button -> trace('button press $button ${button.buttonName()}'));
+		fire.events.onButtonRelease.add(button -> trace('button release $button ${button.buttonName()}'));
 
-		fire.events.onEncoderPress.add(touch -> trace('encoder press $touch'));
-		fire.events.onEncoderRelease.add(touch -> trace('encoder release $touch'));
+		fire.events.onEncoderPress.add(touch -> trace('encoder press $touch ${touch.encoderTouchName()}'));
+		fire.events.onEncoderRelease.add(touch -> trace('encoder release $touch ${touch.encoderTouchName()}'));
 
-		fire.events.onEncoderDecrement.add(move -> trace('encoder decrease $move'));
-		fire.events.onEncoderIncrement.add(move -> trace('encoder increment $move'));
+		fire.events.onEncoderDecrement.add(move -> trace('encoder decrease $move ${move.encoderMoveName()}'));
+		fire.events.onEncoderIncrement.add(move -> trace('encoder increase $move ${move.encoderMoveName()}'));
 
 		fire.events.onPadPress.add(i -> trace('pad press index $i'));
 		fire.events.onPadRelease.add(i -> trace('pad release index $i'));
