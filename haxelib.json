@@ -1,0 +1,14 @@
+{
+	"name": "akai-fire-hx",
+	"url" : "https://github.com/owlbee/akai-fire-hx/",
+	"license": "MIT",
+	"tags": ["midi", "hardware", "controller"],
+	"description": "Abstractions around AKAI Fire controller MIDI to help make custom controller interfaces.",
+	"version": "0.0.0",
+	"classPath": "src/",
+	"releasenote": "Unreleased; controllers, LEDs and Display are exposed",
+	"contributors": ["jobf"],
+	"dependencies": {
+	  "grig.midi": "0.0.7"
+	}
+  }
