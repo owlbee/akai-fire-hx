@@ -49,13 +49,27 @@ class PadSysExMessages {
 		return innerBytes;
 	}
 
-	public static function allColor(rgb:Int):Array<Int> {
+	public static function allColors(rgb:Int):Array<Int> {
 		final payloadLength:Int = Std.int(totalPads * padColorMessageLength);
 		var innerBytes = start_message(MessageConstants.WRITE_PADS, payloadLength);
 		var r = sysex_red(rgb);
 		var g = sysex_green(rgb);
 		var b = sysex_blue(rgb);
 		for (i in 0...totalPads) {
+			appendPadColorMessage(innerBytes, i, r, g, b);
+		}
+		return innerBytes;
+	}
+
+	public static function colorsArray(rgbArray:Array<Int>):Array<Int> {
+		final payloadLength:Int = Std.int(totalPads * padColorMessageLength);
+		var innerBytes = start_message(MessageConstants.WRITE_PADS, payloadLength);
+		for (i in 0...totalPads) {
+			// if(i > rgbArray.length) break;
+			var rgb = rgbArray[i];
+			var r = sysex_red(rgb);
+			var g = sysex_green(rgb);
+			var b = sysex_blue(rgb);
 			appendPadColorMessage(innerBytes, i, r, g, b);
 		}
 		return innerBytes;

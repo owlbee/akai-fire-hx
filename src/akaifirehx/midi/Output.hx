@@ -23,8 +23,6 @@ class Output {
 			oled = new Display();
 			leds = new Leds();
 			isReady = true;
-			// initIllumination();
-			// initDisplay();
 	}
 
 	public function closePort() {
@@ -38,10 +36,10 @@ class Output {
 					midiOut.sendSysEx(PadSysExMessages.singleColor(rgb, x, y));
 				case PadRegionColor(rgb, x, y, w, h):
 					midiOut.sendSysEx(PadSysExMessages.regionColor(rgb, x, y, w, h));
-				case PadAllColorSame(rgb):
-					midiOut.sendSysEx(PadSysExMessages.allColorSame(rgb));
-				case PadAllColors(rgbArray):
-					midiOut.sendSysEx(PadSysExMessages.allColors(rgbArray));
+				case PadAllColors(rgb):
+					midiOut.sendSysEx(PadSysExMessages.allColors(rgb));
+				case PadColorArray(rgbArray):
+					midiOut.sendSysEx(PadSysExMessages.colorsArray(rgbArray));
 				case DisplayWriteText(text, x, y):
 					// oled.clear();
 					oled.plotText(text, x, y);

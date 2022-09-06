@@ -70,7 +70,7 @@ class SysExSetPadStateTests extends Test {
 		Assert.same(expected, PadSysExMessages.regionColor(rgb, x, y, width, height));
 	}
 
-	function test_innerBytes_PadAllColor() {
+	function test_innerBytes_PadAllColors() {
 		var expected = [
 			71, 127, 67, 101, 2, 0, 
 			0, 118, 34, 119, 
@@ -141,7 +141,7 @@ class SysExSetPadStateTests extends Test {
 
 		var rgb = 0xec45ee;
 
-		Assert.same(expected, PadSysExMessages.allColor(rgb));
+		Assert.same(expected, PadSysExMessages.allColors(rgb));
 	}
 }
 

@@ -6,7 +6,8 @@ import akaifirehx.fire.Leds;
 enum AkaiFireEventOut {
 	PadSingleColor(rgb:Int, x:Int, y:Int);
 	PadRegionColor(rgb:Int, x:Int, y:Int, w:Int, h:Int);
-	PadAllColor(rgb:Int);
+	PadAllColors(rgb:Int);
+	PadColorArray(rgbArray:Array<Int>);
 	DisplayWriteText(text:String, x:Int, y:Int);
 	DisplaySetPixel(isLit:Bool, x:Int, y:Int);
 	DisplayClear(sendToDevice:Bool);
