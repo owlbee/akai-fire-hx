@@ -1,6 +1,7 @@
-import akaifirehx.fire.Control.Button;
+import akaifirehx.midi.AkaiFireMidi;
+import akaifirehx.midi.Ports;
+import akaifirehx.fire.Control;
 import akaifirehx.fire.Events;
-import akaifirehx.grig.MidiDevice;
 
 using akaifirehx.util.AbstractEnumNames;
 
@@ -21,7 +22,7 @@ class FireTest {
 			portName: portName
 		}
 
-		var fire = new MidiDevice(inPort, outPort);
+		var fire = new AkaiFireMidi(inPort, outPort);
 
 		fire.sendMessage(PadRegionColor(0x22ff99, 9, 1, 8, 8));
 		fire.sendMessage(PadRegionColor(0x2040ff, 4, 1, 3, 2));
@@ -80,7 +81,7 @@ class FireTest {
 		}
 	}
 
-	static function mainLoop(fire:MidiDevice) {
+	static function mainLoop(fire:AkaiFireMidi) {
 		var stdout = Sys.stdout();
 		var stdin = Sys.stdin();
 

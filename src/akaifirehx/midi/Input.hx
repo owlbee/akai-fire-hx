@@ -1,25 +1,25 @@
-package akaifirehx.grig;
+package akaifirehx.midi;
 
+import akaifirehx.midi.grig.GrigIn;
+import akaifirehx.midi.Ports;
 import akaifirehx.fire.Events;
 import akaifirehx.fire.Control;
 import akaifirehx.fire.Leds;
 import akaifirehx.fire.Display;
-import grig.midi.MidiMessage;
-import grig.midi.MidiIn;
 
 class Input {
-	var midiIn:MidiIn;
+	var midiIn:GrigIn;
 	var oled:Display;
 	var leds:Leds;
 	var events:InputEvents;
 
 	public var isReady(default, null):Bool;
 
-	public function new(portName:String, portNumber:Int, events:InputEvents) {
+	public function new(config:PortConfig, events:InputEvents) {
 		this.events = events;
-		midiIn = new MidiIn(grig.midi.Api.Unspecified);
-		midiIn.setCallback(function(midiMessage:MidiMessage, delta:Float) {
-			// trace(midiMessage.toString());
+		midiIn = new GrigIn(config, 
+			device -> onPortOpened(config, device),
+			(midiMessage, delta) -> {
 			var action:Action = midiMessage.byte1;
 			switch action {
 				case MOVE:
@@ -46,22 +46,11 @@ class Input {
 					}
 			}
 		});
-		midiIn.getPorts().handle(function(outcome) {
-			switch outcome {
-				case Success(ports):
-					midiIn.openPort(portNumber, portName).handle(function(midiOutcome) {
-						switch midiOutcome {
-							case Success(_):
-								isReady = true;
-								trace('IN -> Akai Fire Connected to $portNumber - $portName');
-							case Failure(error):
-								trace(error);
-						}
-					});
-				case Failure(error):
-					trace(error);
-			}
-		});
+	}
+
+	inline function onPortOpened(config:PortConfig, device:GrigIn){
+		isReady = true;
+		trace('IN -> Akai Fire Connected to ${config.portNumber} - ${config.portName}');
 	}
 
 	public function closePort() {

@@ -1,5 +1,6 @@
+import akaifirehx.midi.AkaiFireMidi;
+import akaifirehx.midi.Ports;
 import akaifirehx.fire.Control;
-import akaifirehx.grig.MidiDevice;
 
 class Etcha {
 	static function main() {
@@ -11,7 +12,7 @@ class Etcha {
 			portName: portName
 		}
 
-		fire = new MidiDevice(portConfig, portConfig);
+		fire = new AkaiFireMidi(portConfig, portConfig);
 		fire.events.onEncoderIncrement.add(move -> handleIncrement(move));
 		fire.events.onEncoderDecrement.add(move -> handleDecrement(move));
 		fire.events.onButtonPress.add(button -> handleButtonPress(button));
@@ -26,7 +27,7 @@ class Etcha {
 		}
 	}
 
-	static var fire:MidiDevice;
+	static var fire:AkaiFireMidi;
 	static var penX:Int;
 	static var penY:Int;
 
@@ -68,7 +69,7 @@ class Etcha {
 		fire.sendMessage(DisplaySetPixel(true, penX, penY));
 	}
 
-	static function mainLoop(fire:MidiDevice) {
+	static function mainLoop(fire:AkaiFireMidi) {
 		var stdout = Sys.stdout();
 		var stdin = Sys.stdin();
 
