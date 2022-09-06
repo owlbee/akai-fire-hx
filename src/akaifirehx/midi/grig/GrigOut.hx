@@ -43,11 +43,17 @@ class GrigOut implements IPortOut {
 		midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, bytes2and3));
 	}
 
+	static var nrpn_msb = 99;
+	static var nrpn_lsb = 98;
 	public function sendNRPN(bytes2and3:Array<Int>) {
-		var msb = bytes2and3[1] >> 7;
-		var lsb = bytes2and3[1] & 0x7f;
-		midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, [0x63, msb]));
-		midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, [0x62, lsb]));
+		var id_msb:Int = Std.int(bytes2and3[0] / 128);
+		var id_lsb:Int = bytes2and3[0] % 128;
+		var id = bytes2and3[0];
+		var value = bytes2and3[1];
+		midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, [nrpn_msb, id_msb]));
+		midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, [nrpn_lsb, id_lsb]));
+		midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, [6, value]));
+		// midiOut.sendMessage(MidiMessage.ofMessageType(ControlChange, [38, value]));
 	}
 
 	public function sendSysEx(innerBytes:Array<Int>) {
