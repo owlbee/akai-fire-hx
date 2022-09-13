@@ -2,25 +2,28 @@ package akaifirehx.midi;
 
 import akaifirehx.midi.Ports;
 import akaifirehx.midi.grig.GrigOut;
+import akaifirehx.fire.display.Glyphs;
+import akaifirehx.fire.display.Canvas;
 import akaifirehx.fire.Leds;
-import akaifirehx.fire.Display;
 import akaifirehx.fire.SysEx;
 import akaifirehx.fire.Events;
 
 class Output {
 	var midiOut:GrigOut;
-	var oled:Display;
+	var canvas:PixelCanvas;
 	var leds:Leds;
-
+	var glyphs:Glyphs;
+	
 	public var isReady(default, null):Bool;
 
-	public function new(config:PortConfig) {
+	public function new(config:PortConfig, canvas:PixelCanvas) {
 		midiOut = new GrigOut(config, device -> onPortOpened(config, device));
+		this.canvas = canvas;
+		this.glyphs = new Glyphs(new Font(), canvas.plotPixel);
 	}
 
 	inline function onPortOpened(config:PortConfig, device:GrigOut){
 		trace('OUT -> Akai Fire Connected to ${config.portNumber} - ${config.portName}');
-			oled = new Display();
 			leds = new Leds();
 			isReady = true;
 	}
@@ -40,17 +43,17 @@ class Output {
 					midiOut.sendSysEx(PadSysExMessages.allColors(rgb));
 				case PadColorArray(rgbArray):
 					midiOut.sendSysEx(PadSysExMessages.colorsArray(rgbArray));
-				case DisplayWriteText(text, x, y):
-					// oled.clear();
-					oled.plotText(text, x, y);
-					midiOut.sendSysEx(OledSysExMessages.allOledPixels(oled.pixels));
+				case DisplaySetText(text, x, y, isInverted):
+					glyphs.write(text, x, y, isInverted);
 				case DisplaySetPixel(isLit, x, y):
-					oled.plotPixel(isLit, x, y);
-					midiOut.sendSysEx(OledSysExMessages.allOledPixels(oled.pixels));
+					canvas.plotPixel(x, y, isLit);
+				case DisplayShow:
+					midiOut.sendSysEx(OledSysExMessages.allOled(canvas.getPixels()));
+					trace('display show');
 				case DisplayClear(sendToDevice):
-					oled.clear();
+					canvas.clear();
 					if (sendToDevice) {
-						midiOut.sendSysEx(OledSysExMessages.allOledPixels(oled.pixels));
+						midiOut.sendSysEx(OledSysExMessages.allOled(canvas.getPixels()));
 					}
 				case LedSingleColor(id, state):
 					leds.setSingle(id, state);
@@ -78,6 +81,8 @@ class Output {
 	}
 
 	public function initDisplay() {
-		sendMessage(DisplayWriteText("ready!", 0, 0));
+		final isInverted = false;
+		sendMessage(DisplaySetText("ready!", 0, 0, isInverted));
+		sendMessage(DisplayShow);
 	}
 }

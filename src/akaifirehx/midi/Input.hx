@@ -5,18 +5,22 @@ import akaifirehx.midi.Ports;
 import akaifirehx.fire.Events;
 import akaifirehx.fire.Control;
 import akaifirehx.fire.Leds;
-import akaifirehx.fire.Display;
 
 class Input {
 	var midiIn:GrigIn;
-	var oled:Display;
-	var leds:Leds;
 	var events:InputEvents;
-
+	
 	public var isReady(default, null):Bool;
+	public var isDownPad(default, null):Map<Int, Bool>;
+	public var isDownButton(default, null):Map<Int, Bool>;
+	public var isDownEncoder(default, null):Map<Int, Bool>;
 
 	public function new(config:PortConfig, events:InputEvents) {
 		this.events = events;
+		isDownPad = [];
+		isDownButton = [];
+		isDownEncoder = [];
+
 		midiIn = new GrigIn(config, 
 			device -> onPortOpened(config, device),
 			(midiMessage, delta) -> {
@@ -65,27 +69,39 @@ class Input {
 		}
 	}
 
+	inline function toPadIndex(byte2:Int):Int{
+		return byte2 - 0x36;
+	}
+
 	inline function handlePadPress(byte2:Int) {
-		events.onPadPress.dispatch(byte2 - 0x36);
+		var padIndex = toPadIndex(byte2);
+		isDownPad[padIndex] = true;
+		events.onPadPress.dispatch(padIndex);
 	}
 
 	inline function handlePadRelease(byte2:Int) {
-		events.onPadRelease.dispatch(byte2 - 0x36);
+		var padIndex = toPadIndex(byte2);
+		isDownPad[padIndex] = false;
+		events.onPadRelease.dispatch(padIndex);
 	}
 
 	inline function handleEncoderPress(id:EncoderTouch) {
+		isDownEncoder[id] = true;
 		events.onEncoderPress.dispatch(id);
 	}
 
 	inline function handleEncoderRelease(id:EncoderTouch) {
+		isDownEncoder[id] = false;
 		events.onEncoderRelease.dispatch(id);
 	}
 
 	inline function handleButtonPress(id:Button) {
+		isDownButton[id] = true;
 		events.onButtonPress.dispatch(id);
 	}
 
 	inline function handleButtonRelease(id:Button) {
+		isDownButton[id] = false;
 		events.onButtonRelease.dispatch(id);
 	}
 }

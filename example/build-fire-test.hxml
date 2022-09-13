@@ -3,8 +3,8 @@
 # dec no needed for midiIn->midiCallback
 -dce no
 -lib grig.midi
+-lib format
 
---resource ../resource/12x16fnt.bin@12x16fnt
 -main FireTest
 --cpp bin/cpp/fire-test
 

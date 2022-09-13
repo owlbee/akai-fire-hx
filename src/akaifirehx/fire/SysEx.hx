@@ -83,7 +83,7 @@ class OledSysExMessages{
 	static var startColumn:Int = 0;
 	static var endColumn:Int = 0x7f;
 
-	public static function allOledPixels(pixels:Array<Int>):Array<Int>{
+	public static function allOled(pixels:Array<Int>):Array<Int>{
 		var messageLength = pixels.length + 4;
 		var innerBytes = start_message(MessageConstants.WRITE_OLed, messageLength);
 		innerBytes.push(startBand);

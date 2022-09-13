@@ -146,7 +146,7 @@ class SysExSetPadStateTests extends Test {
 }
 
 class SysExSetOledStateTests extends Test {
-	function test_innerBytes_allOledPixels() {
+	function test_innerBytes_allOled() {
 		// bytes for "tested..." using 12x16fnt.bin
 		var pixels = [
 			0, 24, 12, 15, 119, 121, 64, 96, 48, 0, 0, 8, 6, 3, 64, 96, 48, 24, 12, 6, 6, 2, 0, 0, 96, 56, 12, 6, 3, 1, 64, 96, 32, 0, 12, 6, 7, 123, 124, 96,
@@ -205,6 +205,6 @@ class SysExSetOledStateTests extends Test {
 			0
 		];
 
-		Assert.same(expected, OledSysExMessages.allOledPixels(pixels));
+		Assert.same(expected, OledSysExMessages.allOled(pixels));
 	}
 }

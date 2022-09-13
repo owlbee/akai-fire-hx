@@ -1,3 +1,4 @@
+import akaifirehx.fire.display.Canvas.OledCanvas;
 import akaifirehx.midi.AkaiFireMidi;
 import akaifirehx.midi.Ports;
 import akaifirehx.fire.Control;
@@ -22,13 +23,18 @@ class FireTest {
 			portName: portName
 		}
 
-		var fire = new AkaiFireMidi(inPort, outPort);
+		var fire = new AkaiFireMidi(inPort, outPort, new OledCanvas());
 
 		fire.sendMessage(PadRegionColor(0x22ff99, 9, 1, 8, 8));
 		fire.sendMessage(PadRegionColor(0x2040ff, 4, 1, 3, 2));
 		fire.sendMessage(PadSingleColor(0x934692, 15, 3));
-
-		fire.sendMessage(DisplayWriteText("hello ^_^", 0, 0));
+		
+		fire.sendMessage(DisplayClear(false));
+		var isInverted = false;
+		fire.sendMessage(DisplaySetText("       hello ^_^", 0, 0, isInverted));
+		isInverted = true;
+		fire.sendMessage(DisplaySetText("^o^ hi!", 0, 8, isInverted));
+		fire.sendMessage(DisplayShow);
 
 		// red
 		fire.sendMessage(LedSingleColor(PATUP, LOW));

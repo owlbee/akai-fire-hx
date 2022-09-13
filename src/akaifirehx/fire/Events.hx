@@ -8,9 +8,10 @@ enum AkaiFireEventOut {
 	PadRegionColor(rgb:Int, x:Int, y:Int, w:Int, h:Int);
 	PadAllColors(rgb:Int);
 	PadColorArray(rgbArray:Array<Int>);
-	DisplayWriteText(text:String, x:Int, y:Int);
+	DisplaySetText(text:String, x:Int, y:Int, isInverted:Bool);
 	DisplaySetPixel(isLit:Bool, x:Int, y:Int);
 	DisplayClear(sendToDevice:Bool);
+	DisplayShow;
 	LedSingleColor(id:SingleColorLed, state:SingleColorState);
 	LedYellowColor(id:YellowColorLed, state:YellowColorState);
 	LedMultiColor(id:MultiColorLed, state:MultiColorState);

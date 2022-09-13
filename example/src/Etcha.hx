@@ -1,3 +1,4 @@
+import akaifirehx.fire.display.Canvas.OledCanvas;
 import akaifirehx.midi.AkaiFireMidi;
 import akaifirehx.midi.Ports;
 import akaifirehx.fire.Control;
@@ -11,18 +12,17 @@ class Etcha {
 			portNumber: portNumber,
 			portName: portName
 		}
-
-		fire = new AkaiFireMidi(portConfig, portConfig);
+		
+		fire = new AkaiFireMidi(portConfig, portConfig,  new OledCanvas());
 		fire.events.onEncoderIncrement.add(move -> handleIncrement(move));
 		fire.events.onEncoderDecrement.add(move -> handleDecrement(move));
 		fire.events.onButtonPress.add(button -> handleButtonPress(button));
 		penX = 64;
 		penY = 32;
 
-		fire.sendMessage(DisplayClear(false));
-		drawPixel();
-
 		if (fire.isReady()) {
+			fire.sendMessage(DisplayClear(false));
+			drawPixel();
 			mainLoop(fire);
 		}
 	}
@@ -66,7 +66,9 @@ class Etcha {
 	}
 
 	static function drawPixel() {
+		// trace('draw pixel $penX $penY');
 		fire.sendMessage(DisplaySetPixel(true, penX, penY));
+		fire.sendMessage(DisplayShow);
 	}
 
 	static function mainLoop(fire:AkaiFireMidi) {

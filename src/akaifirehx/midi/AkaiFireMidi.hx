@@ -1,20 +1,23 @@
 package akaifirehx.midi;
 
+import akaifirehx.fire.display.Canvas;
+import akaifirehx.fire.Control;
+import akaifirehx.fire.Events;
 import akaifirehx.midi.Input;
 import akaifirehx.midi.Output;
 import akaifirehx.midi.Ports;
-import akaifirehx.fire.Events;
 
 class AkaiFireMidi {
-	public var input(default, null):Input;
-	public var output(default, null):Output;
+	var input(default, null):Input;
+	var output(default, null):Output;
+
 	public var events(default, null):InputEvents;
 
-	public function new(inPort:PortConfig, outPort:PortConfig) {
+	public function new(inPort:PortConfig, outPort:PortConfig, canvas:PixelCanvas) {
 		events = new InputEvents();
 		input = new Input(inPort, events);
-		output = new Output(outPort);
-		if(isReady()){
+		output = new Output(outPort, canvas);
+		if (isReady()) {
 			trace('AkaiFireMidi ready!');
 			output.initDisplay();
 			output.initIllumination();
@@ -27,6 +30,18 @@ class AkaiFireMidi {
 
 	public function isReady():Bool {
 		return input.isReady && output.isReady;
+	}
+
+	public function isDownPad(padIndex:Int) {
+		return input.isDownPad[padIndex];
+	}
+
+	public function isDownButton(button:Button) {
+		return input.isDownButton[button];
+	}
+
+	public function isDownEncoder(encoder:EncoderTouch) {
+		return input.isDownEncoder[encoder];
 	}
 
 	public function closePorts() {

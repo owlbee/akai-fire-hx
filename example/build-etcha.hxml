@@ -2,7 +2,7 @@
 -cp ../src
 -dce no
 -lib grig.midi
+-lib format
 
---resource ../resource/12x16fnt.bin@12x16fnt
 -main Etcha
 --cpp bin/cpp/etcha
