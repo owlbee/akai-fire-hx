@@ -1,10 +1,9 @@
 import akaifirehx.fire.display.Canvas.OledCanvas;
 import akaifirehx.midi.AkaiFireMidi;
 import akaifirehx.midi.Ports;
-import akaifirehx.fire.Control;
-import akaifirehx.fire.Events;
 
 using akaifirehx.util.AbstractEnumNames;
+using akaifirehx.util.TransmitPng;
 
 /**
 	test akai fire abstraction
@@ -28,7 +27,7 @@ class FireTest {
 		fire.sendMessage(PadRegionColor(0x22ff99, 9, 1, 8, 8));
 		fire.sendMessage(PadRegionColor(0x2040ff, 4, 1, 3, 2));
 		fire.sendMessage(PadSingleColor(0x934692, 15, 3));
-		
+
 		fire.sendMessage(DisplayClear(false));
 		var isInverted = false;
 		fire.sendMessage(DisplaySetText("       hello ^_^", 0, 0, isInverted));
@@ -92,11 +91,15 @@ class FireTest {
 		var stdin = Sys.stdin();
 
 		stdout.writeString('quit[enter] to quit\n');
+
 		while (true) {
 			var command = stdin.readLine();
 			if (command.toLowerCase() == 'quit') {
 				fire.closePorts();
 				return;
+			}
+			if (command.toLowerCase() == 'p') {
+				fire.sendImageToPads('pad-colors.png');
 			}
 		}
 	}
