@@ -48,4 +48,18 @@ class AkaiFireMidi {
 		input.closePort();
 		output.closePort();
 	}
+
+	inline function shutDown(){
+		output.sendMessage(LedGlobalIllumination(false));
+		output.sendMessage(DisplayClear(false));
+		output.sendMessage(DisplaySetText("bye!", 0, 0, false));
+		output.sendMessage(DisplayShow);
+		closePorts();
+		Sys.exit(0);
+	}
+
+	public function update() {
+		var isShutdownSequenceHeld = isDownButton(STEP) && isDownButton(NOTE) && isDownButton(REC);
+		if(isShutdownSequenceHeld) shutDown();
+	}
 }
