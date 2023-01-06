@@ -1,7 +1,7 @@
 package akaifirehx.fire.display;
 
-import haxe.io.BytesOutput;
 import akaifirehx.util.Grid;
+import haxe.io.BytesOutput;
 
 /**
 	Abstract surface for interacting with OLED pixels;
@@ -18,7 +18,7 @@ abstract class PixelCanvas {
 		return x >= width || y > height || x < 0 || y < 0;
 	}
 
-	abstract function setPixel(x:Int, y:Int, isLit:Bool):Void;
+	abstract public function setPixel(x:Int, y:Int, isLit:Bool):Void;
 
 	public function plotPixel(x:Int, y:Int, isLit:Bool) {
 		if (isOutOfBounds(x, y))
@@ -96,7 +96,7 @@ class ImageCanvas extends PixelCanvas {
 	}
 
 	public function setPixel(x:Int, y:Int, isLit:Bool) {
-		pixels.set(x, y, isLit ? white : black);
+		if(isLit) pixels.set(x, y, isLit ? white : black);
 	}
 
 	public function write(path:String):Void {
@@ -117,5 +117,31 @@ class ImageCanvas extends PixelCanvas {
 		for(i in 0...pixels.cells.length){
 			pixels.cells[i] = black;
 		}
+	}
+}
+
+
+
+class OledCanvasImageSync extends PixelCanvas{
+	var image:ImageCanvas;
+	var oled:OledCanvas;
+
+	public function new(width:Int, height:Int) {
+		image = new ImageCanvas(width, height);
+		oled = new OledCanvas();
+	}
+
+	public function clear() {
+		oled.clear();
+		image.clear();
+	}
+
+	public function getPixels():Array<Int> {
+		return oled.getPixels();
+	}
+
+	public function setPixel(x:Int, y:Int, isLit:Bool) {
+		oled.setPixel(x, y, isLit);
+		image.setPixel(x, y, isLit);
 	}
 }
