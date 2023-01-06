@@ -14,6 +14,13 @@ class GrigOut implements IPortOut {
 			switch outcome {
 				case Success(ports):
 					trace('... \n ports');
+					var portNumber = 0;
+					for(portList in ports){
+						for(portName in portList.split(",")){
+							trace('$portNumber $portName');
+							portNumber++;
+						}
+					}
 					trace(ports);
 					midiOut.openPort(config.portNumber, config.portName).handle(function(midiOutcome) {
 						switch midiOutcome {

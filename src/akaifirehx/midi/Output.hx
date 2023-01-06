@@ -49,7 +49,6 @@ class Output {
 					canvas.plotPixel(x, y, isLit);
 				case DisplayShow:
 					midiOut.sendSysEx(OledSysExMessages.allOled(canvas.getPixels()));
-					trace('display show');
 				case DisplayClear(sendToDevice):
 					canvas.clear();
 					if (sendToDevice) {
