@@ -105,8 +105,10 @@ class ImageCanvas extends PixelCanvas {
 			bytes.writeInt32(pixel);
 		}
 		var data = format.png.Tools.build32ARGB(width, height, bytes.getBytes());
+		#if !web
 		var out = sys.io.File.write(path, true);
 		new format.png.Writer(out).write(data);
+		#end
 	}
 
 	public function getPixels():Array<Int> {
