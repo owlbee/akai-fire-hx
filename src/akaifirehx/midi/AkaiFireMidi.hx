@@ -55,7 +55,9 @@ class AkaiFireMidi {
 		output.sendMessage(DisplaySetText("bye!", 0, 0, false));
 		output.sendMessage(DisplayShow);
 		closePorts();
+		#if !web
 		Sys.exit(0);
+		#end
 	}
 
 	public function update() {
